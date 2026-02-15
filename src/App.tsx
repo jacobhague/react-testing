@@ -1,12 +1,11 @@
-
-import Square from './components/Square';
+import Car from './components/Car';
 
 function App() {
 
 
   return (
     <div>
-      <Square />
+      <Car />
     </div>
   )
 }

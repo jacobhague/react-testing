@@ -3,19 +3,15 @@ import carImage from './assets/car.jpg'
 
 let angleRad = 0.0;
 let speed = 0.0;
+ const turningRadius = 100.0;
+const acceleration = 0.1;
+const maxSpeed = 7.0;
 
-function Square() {
+function Car() {
 
   const [position, setPosition] = useState({ x: 0, y: 0, angle: 0 });
 
-
-
   const [pressedKeys, setPressedKeys] = useState(new Set());
-
-  const turningRadius = 100.0;
-  const acceleration = 1.0;
-
-
 
 
 
@@ -43,54 +39,35 @@ function Square() {
 
 
 
-  //sets angleRad
+
+  //sets speed
 
   useEffect(() => {
-    const interval = setInterval(() => {
+  const interval = setInterval(() => {
 
+    if (pressedKeys.has('w') || pressedKeys.has('s')) {
 
-
-
-      if (pressedKeys.has('w')) {
+      if (pressedKeys.has('w') && speed < maxSpeed) {
         
-
-
-        if(pressedKeys.has('a')) {
-
-          angleRad -= speed / turningRadius;
-
-        }
-
-        if(pressedKeys.has('d')) {
-
-          angleRad += speed / turningRadius;
-        }
-
+        speed += acceleration;
 
       }
 
-      if (pressedKeys.has('s')) {
+      if (pressedKeys.has('s') && speed > maxSpeed * -1) {
         
+        speed -= acceleration;
 
-
-        if(pressedKeys.has('a')) {
-
-          angleRad += speed / turningRadius;
-
-        }
-
-        if(pressedKeys.has('d')) {
-
-          angleRad -= speed / turningRadius;
-        }
-        
       }
-      if (angleRad > Math.PI) angleRad = Math.PI*-2 + angleRad;
 
-      if (angleRad < Math.PI*-1) angleRad = Math.PI*2 + angleRad;
+  } else {
+     
+    if (speed > 0 && speed > acceleration) speed -= acceleration;
+    if (speed < 0 && speed < acceleration*-1) speed += acceleration;
+    if (speed > 0 && speed < acceleration) speed = 0;
+    if (speed < 0 && speed > acceleration*-1) speed = 0;
 
 
-
+  }
 
     }, 16); // ~60fps
 
@@ -98,6 +75,7 @@ function Square() {
   }, [pressedKeys, position]);
 
 
+  // sets position
     useEffect(() => {
     const interval = setInterval(() => {
 
@@ -105,23 +83,32 @@ function Square() {
       let newY = position.y;
       let newAngle = position.angle;
       
-      
 
-      if (pressedKeys.has('w')) {
+
+      if (speed > 0) {
         
-
 
         newY -= Math.ceil(speed * Math.cos(angleRad));
         newX += Math.ceil(speed * Math.sin(angleRad));
 
-      }
-
-      if (pressedKeys.has('s')) {
-
-        newY += Math.ceil(speed * Math.cos(angleRad));
-        newX -= Math.ceil(speed * Math.sin(angleRad));
+        if(pressedKeys.has('a')) angleRad -= speed / turningRadius;
+        if(pressedKeys.has('d')) angleRad += speed / turningRadius;
 
       }
+
+      if (speed < 0) {
+
+        newY -= Math.ceil(speed * Math.cos(angleRad));
+        newX += Math.ceil(speed * Math.sin(angleRad));
+
+        if(pressedKeys.has('a')) angleRad += speed / turningRadius;
+        if(pressedKeys.has('d')) angleRad -= speed / turningRadius;
+
+      }
+
+      
+      if (angleRad > Math.PI) angleRad = Math.PI*-2 + angleRad;
+      if (angleRad < Math.PI*-1) angleRad = Math.PI*2 + angleRad;
 
       newAngle = angleRad / Math.PI * 180;
 
@@ -153,4 +140,4 @@ function Square() {
   );
 };
 
-export default Square
+export default Car
