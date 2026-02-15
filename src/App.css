@@ -1,3 +1,8 @@
 .list-group-item.active-red {
     background-color: red;
 }
+
+.car {
+    background-image: url('./assets/car.jpg');
+    background-size: cover;
+}
