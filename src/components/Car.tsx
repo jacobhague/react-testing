@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import carImage from './assets/car.jpg'
+
+const turningRadius = 250.0;
+const acceleration = 0.1;
+const maxSpeed = 15.0;
+
 
 let angleRad = 0.0;
 let trueX = 0.0;
 let trueY = 0.0;
 let speed = 0.0;
-const turningRadius = 100.0;
-const acceleration = 0.1;
-const maxSpeed = 7.0;
 
 function Car() {
 
@@ -39,11 +41,7 @@ function Car() {
     };
   }, []);
 
-
-
-
   //sets speed
-
   useEffect(() => {
   const interval = setInterval(() => {
 
@@ -52,14 +50,14 @@ function Car() {
       if (pressedKeys.has('w') && speed < maxSpeed) {
         
         if (speed > 0) speed += acceleration;
-        else speed += acceleration * 2;
+        else speed += acceleration * 3;
 
       }
 
       if (pressedKeys.has('s') && speed > maxSpeed * -1) {
         
         if (speed < 0) speed -= acceleration;
-        else speed -= acceleration * 2;
+        else speed -= acceleration * 3;
 
       }
 
