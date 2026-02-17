@@ -3,7 +3,7 @@ import carImage from './assets/car.jpg'
 
 const turningRadius = 250.0;
 const acceleration = 0.1;
-const maxSpeed = 15.0;
+const maxSpeed = 60.0;
 
 
 let angleRad = 0.0;
@@ -71,7 +71,7 @@ function Car() {
 
   }
 
-    }, 16); // ~60fps
+    }, 16);
 
     return () => clearInterval(interval);
   }, [pressedKeys, position]);
@@ -122,7 +122,7 @@ function Car() {
       if (newX !== position.x || newY !== position.y || newAngle !== position.angle) {
         setPosition({ x: newX, y: newY, angle: newAngle });
       }
-    }, 16); // ~60fps
+    }, 16);
 
     return () => clearInterval(interval);
   }, [pressedKeys, position]);
